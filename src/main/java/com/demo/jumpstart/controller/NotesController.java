@@ -1,29 +1,40 @@
 package com.demo.jumpstart.controller;
 
 import com.demo.jumpstart.model.Note;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.demo.jumpstart.service.NotesService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("notes")
 public class NotesController {
 
+    @Autowired private NotesService service;
+
     @GetMapping
-    public List<Note> getAllNotes(){
-
-        Note note = new Note();
-        note.setTitle("New Note");
-        note.setDescription("A quick brown fox jumps over the lazy dog");
-        note.setDate_created(new Date().toString());
-
-        return Collections.singletonList(note);
+    public List<Note> getAllNotes() {
+        return service.getAllNotes();
     }
 
+    @GetMapping("{id}")
+    public Note getNoteById(@PathVariable("id") Integer id) {
+        return service.getNoteById(id);
+    }
 
+    @PostMapping
+    public String createNote(@RequestBody Note note) {
+        return service.createNote(note);
+    }
 
+    @PutMapping("{id}")
+    public String updateNote(@PathVariable("id") Integer id, @RequestBody Note note) {
+        return service.updateNote(id,note);
+    }
+
+    @DeleteMapping("{id}")
+    public String deleteNote(@PathVariable("id") Integer id) {
+        return service.deleteNote(id);
+    }
 }

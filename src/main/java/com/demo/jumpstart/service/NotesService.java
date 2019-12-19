@@ -5,6 +5,8 @@ import com.demo.jumpstart.repository.NotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.DatabaseMetaData;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +36,12 @@ public class NotesService {
     public String updateNote(Integer id, Note note) {
 
         Note exisitngNote = getNoteById(id);
+        exisitngNote.setTitle(note.getTitle());
+        exisitngNote.setDescription(note.getDescription());
+        exisitngNote.setDate_updated(new Date().toString());
 
         if(exisitngNote!=null)
-            repository.save(note);
+            repository.save(exisitngNote);
         else{
             return "Note with id doesn't exist";
         }

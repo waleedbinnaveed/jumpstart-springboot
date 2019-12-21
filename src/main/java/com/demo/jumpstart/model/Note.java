@@ -1,10 +1,31 @@
 package com.demo.jumpstart.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "notes")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Note {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",unique = true)
     public Integer id;
+
+    @Column(name = "title")
+    @Size(max = 200)
     public String title;
+
+    @Column(name = "description")
+    @Size(max = 1000)
     public String description;
+
+    @Column(name = "creation_date" )
     public String date_created;
+
+    @Column(name = "update_date" )
     public String date_updated;
 
     public Note() {
